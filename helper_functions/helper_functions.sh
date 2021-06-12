@@ -149,6 +149,7 @@ function pacman_install() {
   LD_PRELOAD="${LD_PRELOAD_old}"
   return "${ret}"
 }
+export -f pacman_install
 
 
 function ar18_install() {
@@ -193,3 +194,4 @@ function ar18_install() {
   LD_PRELOAD="${LD_PRELOAD_old}"
   return "${ret}"
 }
+export -f ar18_install
