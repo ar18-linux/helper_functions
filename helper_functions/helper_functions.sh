@@ -2,12 +2,16 @@
 
 
 function has_sudo_capabilities() {
+  # Function template 2021-06-12.01
+  local shell_options
+  IFS=$'\n' shell_options=($(shopt -op))
+  set -eu
+  set -o pipefail
+  local LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
   local ret
   ret=0
-  local errexit
-  errexit="$(shopt -op | grep errexit)"
-  set -e
-  # Function template 2021-06-12.03
+  set +x
   # Function start
   local output
   set +e
@@ -28,19 +32,25 @@ function has_sudo_capabilities() {
     fi
   fi
   # Function end
-  eval "${errexit}"
+  for option in "${shell_options[@]}"; do
+    eval "${option}"
+  done
+  LD_PRELOAD="${LD_PRELOAD_old}"
   return "${ret}"
 }
 
 
 function obtain_sudo_password() {
+  # Function template 2021-06-12.01
   local shell_options
   IFS=$'\n' shell_options=($(shopt -op))
   set -eu
-  set +x
   set -o pipefail
   local LD_PRELOAD_old="${LD_PRELOAD}"
   LD_PRELOAD=
+  local ret
+  ret=0
+  set +x
   # Function start
   if [[ "$(whoami)" = "root" ]]; then
     read -p "[ERROR]: Must not be root!"
@@ -68,32 +78,57 @@ function obtain_sudo_password() {
     eval "${option}"
   done
   LD_PRELOAD="${LD_PRELOAD_old}"
+  return "${ret}"
 }
 
 
 function pacman_install() {
-  local errexit="$(shopt -op | grep errexit)"
-  set -e
+  # Function template 2021-06-12.01
+  local shell_options
+  IFS=$'\n' shell_options=($(shopt -op))
+  set -eu
+  set -o pipefail
+  local LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
+  local ret
+  ret=0
+  set +x
   # Function start
+  local packages
   packages="$1"
   obtain_sudo_password
   if [ -z "${ar18_pacman_cache_updated+x}" ]; then
-    echo "${ar18_sudo_passwd}" | sudo -S -k pacman -Sy
+    echo "${ar18_sudo_password}" | sudo -S -k pacman -Sy --noconfirm
     export ar18_pacman_cache_updated=1
   fi
-  echo "${ar18_sudo_passwd}" | sudo -S -k pacman -S "${packages}" --noconfirm
+  echo "${ar18_sudo_password}" | sudo -S -k pacman -S "${packages}" --noconfirm
   # Function end
-  eval "${errexit}"
+  for option in "${shell_options[@]}"; do
+    eval "${option}"
+  done
+  LD_PRELOAD="${LD_PRELOAD_old}"
+  return "${ret}"
 }
 
 
 function ar18_install() {
-  local errexit="$(shopt -op | grep errexit)"
-  set -e
+  # Function template 2021-06-12.01
+  local shell_options
+  IFS=$'\n' shell_options=($(shopt -op))
+  set -eu
+  set -o pipefail
+  local LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
+  local ret
+  ret=0
+  set +x
   # Function start
-  local install_dir="$1"
-  local module_name="$2"
-  local script_dir="$3"
+  local install_dir
+  install_dir="$1"
+  local module_name
+  module_name="$2"
+  local script_dir
+  script_dir="$3"
   
   obtain_sudo_password
   
@@ -109,5 +144,9 @@ function ar18_install() {
     fi
   fi
   # Function end
-  eval "${errexit}"
+  for option in "${shell_options[@]}"; do
+    eval "${option}"
+  done
+  LD_PRELOAD="${LD_PRELOAD_old}"
+  return "${ret}"
 }
