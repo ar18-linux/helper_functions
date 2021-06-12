@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-function check_sudo_capabilities() {
+function has_sudo_capabilities() {
   local ret
   ret=0
   local errexit
@@ -12,9 +12,9 @@ function check_sudo_capabilities() {
   local output
   output="$(sudo -vn)"
   if [[ "${output}" =~ "sudo: a password is required" ]]; then
-    ret=0
-  elif [[ "${output}" =~ "Sorry, user" ]]; then
     ret=1
+  elif [[ "${output}" =~ "Sorry, user" ]]; then
+    ret=0
   fi
   # Function end
   eval "${errexit}"
@@ -29,7 +29,7 @@ function obtain_sudo_password() {
   # Function start
   if [ -z "${ar18_sudo_password+x}" ]; then
     echo "Testing for sudo capabilities..."
-    if [ "$(check_sudo_capabilities)" ]; then
+    if [ "$(has_sudo_capabilities)" ]; then
       echo "Sudo rights have been asserted"
     else
        echo "User $(whoami) does not have sudo rights, aborting"; 
