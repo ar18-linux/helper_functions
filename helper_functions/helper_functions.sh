@@ -64,7 +64,7 @@ function has_sudo_capabilities() {
     eval "${option}"
   done
   LD_PRELOAD="${LD_PRELOAD_old}"
-  return "0"
+  return "${ret}"
 }
 
 
