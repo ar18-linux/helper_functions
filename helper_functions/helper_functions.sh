@@ -30,10 +30,7 @@ function function_prototype() {
 function has_sudo_capabilities() {
   # Function template 2021-06-12.01
   local shell_options
-  shopt -op
-  shopt -s inherit_errexit
   IFS=$'\n' shell_options=($(shopt -op))
-  echo ${shell_options[3]}
   set -eu
   set -o pipefail
   local LD_PRELOAD_old="${LD_PRELOAD}"
