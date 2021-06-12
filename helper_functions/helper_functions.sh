@@ -15,6 +15,10 @@ function has_sudo_capabilities() {
     ret=1
   elif [[ "${output}" =~ "Sorry, user" ]]; then
     ret=0
+  else
+    echo "[ERROR]: Could not determine sudo access from:"
+    echo "${output}"
+    exit 1
   fi
   # Function end
   eval "${errexit}"
