@@ -12,17 +12,20 @@ function has_sudo_capabilities() {
   local output
   set +e
   output="$(sudo -vn 2>&1)"
-  echo $?
+  ret=$?
   set -e
-  echo $?
-  if [[ "${output}" =~ "sudo: a password is required" ]]; then
+  if [ "${ret}" = "0" ];then
     ret=1
-  elif [[ "${output}" =~ "Sorry, user" ]]; then
-    ret=0
   else
-    echo "[ERROR]: Could not determine sudo access from:"
-    echo "${output}"
-    exit 1
+    if [[ "${output}" =~ "sudo: a password is required" ]]; then
+      ret=1
+    elif [[ "${output}" =~ "Sorry, user" ]]; then
+      ret=0
+    else
+      echo "[ERROR]: Could not determine sudo access from:"
+      echo "${output}"
+      exit 1
+    fi
   fi
   # Function end
   eval "${errexit}"
@@ -50,6 +53,10 @@ function obtain_sudo_password() {
     fi
     local sudo_passwd
     read -s -p "Enter your password: " sudo_passwd
+    if [ "$(echo "${sudo_passwd}" | sudo -Sk id)" ]; then
+      read -p "[ERROR]: Password seems to be wrong"; 
+      exit 1
+    fi
     export ar18_sudo_password="${sudo_passwd}"
   fi
   # Function end
