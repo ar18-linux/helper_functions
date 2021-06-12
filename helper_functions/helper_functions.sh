@@ -23,5 +23,5 @@ function pacman_install() {
     export ar18_pacman_cache_updated=1
   fi
   echo "${ar18_sudo_passwd}" | sudo -S -k pacman -S "${packages}" --noconfirm
-  "${errexit}"
+  eval "${errexit}"
 }
