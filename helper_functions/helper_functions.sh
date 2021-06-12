@@ -91,6 +91,7 @@ function obtain_sudo_password() {
     fi
     local sudo_passwd
     read -s -p "Enter your password: " sudo_passwd
+    echo ""
     echo "Testing the password with 'sudo -Sk id'"
     if [ ! "$(echo "${sudo_passwd}" | sudo -Sk id)" ]; then
       read -p "[ERROR]: Password seems to be wrong"; 
