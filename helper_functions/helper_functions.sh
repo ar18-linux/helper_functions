@@ -34,9 +34,13 @@ function has_sudo_capabilities() {
 
 
 function obtain_sudo_password() {
-  local errexit
-  errexit="$(shopt -op | grep errexit)"
-  set -e
+  local shell_options
+  IFS=$'\n' shell_options=($(shopt -op))
+  set -eu
+  set +x
+  set -o pipefail
+  local LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
   # Function start
   if [[ "$(whoami)" = "root" ]]; then
     read -p "[ERROR]: Must not be root!"
@@ -60,7 +64,10 @@ function obtain_sudo_password() {
     export ar18_sudo_password="${sudo_passwd}"
   fi
   # Function end
-  eval "${errexit}"
+  for option in "${shell_options[@]}"; do
+    eval "${option}"
+  done
+  LD_PRELOAD="${LD_PRELOAD_old}"
 }
 
 
