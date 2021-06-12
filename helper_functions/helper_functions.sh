@@ -30,6 +30,7 @@ function function_prototype() {
 function has_sudo_capabilities() {
   # Function template 2021-06-12.01
   local shell_options
+  set -x
 shopt -op
   IFS=$'\n' shell_options=($(shopt -op))
   set -eu
