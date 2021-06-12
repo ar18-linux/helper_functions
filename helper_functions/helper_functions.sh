@@ -1,6 +1,29 @@
 #!/bin/bash
 
 
+function function_prototype() {
+  # Function template 2021-06-12.01
+  local LD_PRELOAD_old
+  LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
+  local shell_options
+  IFS=$'\n' shell_options=($(shopt -op))
+  set -eu
+  set -o pipefail
+  local ret
+  ret=0
+  set +x
+  # Function start
+  
+  # Function end
+  for option in "${shell_options[@]}"; do
+    eval "${option}"
+  done
+  LD_PRELOAD="${LD_PRELOAD_old}"
+  return "${ret}"
+}
+
+
 function has_sudo_capabilities() {
   # Function template 2021-06-12.01
   local shell_options
