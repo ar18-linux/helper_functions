@@ -42,12 +42,13 @@ function has_sudo_capabilities() {
 
 function obtain_sudo_password() {
   # Function template 2021-06-12.01
+  local LD_PRELOAD_old
+  LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
   local shell_options
   IFS=$'\n' shell_options=($(shopt -op))
   set -eu
   set -o pipefail
-  local LD_PRELOAD_old="${LD_PRELOAD}"
-  LD_PRELOAD=
   local ret
   ret=0
   set +x
@@ -84,12 +85,13 @@ function obtain_sudo_password() {
 
 function pacman_install() {
   # Function template 2021-06-12.01
+  local LD_PRELOAD_old
+  LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
   local shell_options
   IFS=$'\n' shell_options=($(shopt -op))
   set -eu
   set -o pipefail
-  local LD_PRELOAD_old="${LD_PRELOAD}"
-  LD_PRELOAD=
   local ret
   ret=0
   set +x
@@ -113,12 +115,13 @@ function pacman_install() {
 
 function ar18_install() {
   # Function template 2021-06-12.01
+  local LD_PRELOAD_old
+  LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
   local shell_options
   IFS=$'\n' shell_options=($(shopt -op))
   set -eu
   set -o pipefail
-  local LD_PRELOAD_old="${LD_PRELOAD}"
-  LD_PRELOAD=
   local ret
   ret=0
   set +x
