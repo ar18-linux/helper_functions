@@ -171,7 +171,6 @@ function ar18_install() {
   ##############################FUNCTION_START#################################
   
   set -x
-  ls ekfh
   local install_dir
   install_dir="$1"
   local module_name
