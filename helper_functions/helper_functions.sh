@@ -74,6 +74,8 @@ function obtain_sudo_password() {
   LD_PRELOAD_old="${LD_PRELOAD}"
   LD_PRELOAD=
   local shell_options
+  
+shopt -op
   IFS=$'\n' shell_options=($(shopt -op))
   set -eu
   set -o pipefail
