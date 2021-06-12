@@ -33,13 +33,17 @@ function obtain_sudo_password() {
   errexit="$(shopt -op | grep errexit)"
   set -e
   # Function start
+  if [[ "$(whoami)" = "root" ]]; then
+    read -p "[ERROR]: Must not be root!"
+    exit 1
+  fi
   if [ -z "${ar18_sudo_password+x}" ]; then
     echo "Testing for sudo capabilities..."
     has_sudo_capabilities
     if [ "$?" = "1" ]; then
       echo "Sudo rights have been asserted"
     else
-       echo "User $(whoami) does not have sudo rights, aborting"; 
+       read -p "[ERROR]: User $(whoami) does not have sudo rights, aborting"; 
        exit 1
     fi
     local sudo_passwd
