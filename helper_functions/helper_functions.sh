@@ -30,8 +30,6 @@ function function_prototype() {
 function has_sudo_capabilities() {
   # Function template 2021-06-12.01
   local shell_options
-  set -x
-shopt -op
   IFS=$'\n' shell_options=($(shopt -op))
   set -eu
   set -o pipefail
@@ -39,7 +37,7 @@ shopt -op
   LD_PRELOAD=
   local ret
   ret=0
-  set +x
+  set -x
   # Function start
   
   local output
@@ -61,7 +59,8 @@ shopt -op
     fi
   fi
   # Function end
-  set +x
+  set -x
+shopt -op
   for option in "${shell_options[@]}"; do
     eval "${option}"
   done
