@@ -170,6 +170,7 @@ function ar18_install() {
   set +x
   ##############################FUNCTION_START#################################
   
+  set -x
   local install_dir
   install_dir="$1"
   local module_name
