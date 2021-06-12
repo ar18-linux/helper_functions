@@ -64,7 +64,7 @@ function has_sudo_capabilities() {
     eval "${option}"
   done
   LD_PRELOAD="${LD_PRELOAD_old}"
-  return "${ret}"
+  return "0"
 }
 
 
@@ -79,7 +79,7 @@ function obtain_sudo_password() {
   set -o pipefail
   local ret
   ret=0
-  set -x
+  set +x
   # Function start
   
   if [[ "$(whoami)" = "root" ]]; then
