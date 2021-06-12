@@ -18,6 +18,7 @@ function function_prototype() {
   #$SELECTION$
   
   # Function end
+  set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
   done
@@ -58,6 +59,7 @@ function has_sudo_capabilities() {
     fi
   fi
   # Function end
+  set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
   done
@@ -105,6 +107,7 @@ function obtain_sudo_password() {
   fi
   
   # Function end
+  set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
   done
@@ -137,6 +140,7 @@ function pacman_install() {
   echo "${ar18_sudo_password}" | sudo -S -k pacman -S "${packages}" --noconfirm
   
   # Function end
+  set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
   done
@@ -180,7 +184,7 @@ function ar18_install() {
     fi
   fi
   # Function end
-  
+  set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
   done
