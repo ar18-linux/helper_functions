@@ -10,7 +10,9 @@ function has_sudo_capabilities() {
   # Function template 2021-06-12.03
   # Function start
   local output
+  set +e
   output="$(sudo -vn)"
+  set -e
   if [[ "${output}" =~ "sudo: a password is required" ]]; then
     ret=1
   elif [[ "${output}" =~ "Sorry, user" ]]; then
