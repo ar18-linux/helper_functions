@@ -33,10 +33,11 @@ function has_sudo_capabilities() {
   IFS=$'\n' shell_options=($(shopt -op))
   set -eu
   set -o pipefail
-  local LD_PRELOAD_old="${LD_PRELOAD}"
+  local LD_PRELOAD_old
+  LD_PRELOAD_old="${LD_PRELOAD}"
   LD_PRELOAD=
   local ret
-  ret=1
+  ret=0
   set -x
   # Function start
   
