@@ -1,32 +1,6 @@
 #!/bin/bash
 
 
-function function_prototype() {
-  # Function template 2021-06-12.01
-  local LD_PRELOAD_old
-  LD_PRELOAD_old="${LD_PRELOAD}"
-  LD_PRELOAD=
-  local shell_options
-  IFS=$'\n' shell_options=($(shopt -op))
-  set -eu
-  set -o pipefail
-  local ret
-  ret=0
-  set +x
-  # Function start
-  
-  #$SELECTION$
-  
-  # Function end
-  set +x
-  for option in "${shell_options[@]}"; do
-    eval "${option}"
-  done
-  LD_PRELOAD="${LD_PRELOAD_old}"
-  return "${ret}"
-}
-
-
 function has_sudo_capabilities() {
   # Function template 2021-06-12.01
   local shell_options
@@ -39,7 +13,7 @@ function has_sudo_capabilities() {
   local ret
   ret=0
   set -x
-  # Function start
+  ##############################FUNCTION_START#################################
   
   local output
   set +e
@@ -59,7 +33,8 @@ function has_sudo_capabilities() {
       exit 1
     fi
   fi
-  # Function end
+  
+  ###############################FUNCTION_END##################################
   set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
@@ -81,7 +56,7 @@ function obtain_sudo_password() {
   local ret
   ret=0
   set +x
-  # Function start
+  ###############################FUNCTION_START#################################
   
   if [ "$(whoami)" = "root" ]; then
     read -p "[ERROR]: Must not be root!"
@@ -107,7 +82,7 @@ function obtain_sudo_password() {
     export ar18_sudo_password="${sudo_passwd}"
   fi
   
-  # Function end
+  ###############################FUNCTION_END##################################
   set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
@@ -130,7 +105,7 @@ function pacman_install() {
   local ret
   ret=0
   set +x
-  # Function start
+  ##############################FUNCTION_START#################################
   
   local packages
   packages="$1"
@@ -141,7 +116,7 @@ function pacman_install() {
   fi
   echo "${ar18_sudo_password}" | sudo -S -k pacman -S "${packages}" --noconfirm
   
-  # Function end
+  ###############################FUNCTION_END##################################
   set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
@@ -150,6 +125,35 @@ function pacman_install() {
   return "${ret}"
 }
 export -f pacman_install
+
+
+function pip_install() {
+  # Function template 2021-06-12.01
+  local LD_PRELOAD_old
+  LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
+  local shell_options
+  IFS=$'\n' shell_options=($(shopt -op))
+  set -eu
+  set -o pipefail
+  local ret
+  ret=0
+  set +x
+  ##############################FUNCTION_START#################################
+  
+  local packages
+  packages="$1"
+  pip3 install ${packages}
+  
+  ###############################FUNCTION_END##################################
+  set +x
+  for option in "${shell_options[@]}"; do
+    eval "${option}"
+  done
+  LD_PRELOAD="${LD_PRELOAD_old}"
+  return "${ret}"
+}
+export -f pip_install
 
 
 function ar18_install() {
@@ -164,7 +168,7 @@ function ar18_install() {
   local ret
   ret=0
   set +x
-  # Function start
+  ##############################FUNCTION_START#################################
   
   local install_dir
   install_dir="$1"
@@ -181,12 +185,23 @@ function ar18_install() {
   echo "${ar18_sudo_password}" | sudo -Sk chmod +x "${install_dir}/${module_name}/"* -R
   
   if [ -f "${script_dir}/${module_name}/vars" ]; then
-    if [ ! -f "/home/$(logname)/.config/${module_name}/vars" ]; then
-      mkdir -p "/home/$(logname)/.config/${module_name}"
-      cp ${script_dir}/${module_name}/vars /home/$(logname)/.config/${module_name}/vars
+    mkdir -p "/home/${user_name}/.config/ar18/${module_name}"
+    echo "${ar18_sudo_password}" | sudo -Sk chown "${user_name}:${user_name}" "/home/${user_name}/.config/ar18/${module_name}"
+    if [ ! -f "/home/$(user_name)/.config/${module_name}/vars" ]; then
+      cp ${script_dir}/${module_name}/vars /home/$(user_name)/.config/${module_name}/vars
+      echo "${ar18_sudo_password}" | sudo -Sk chown "${user_name}:${user_name}" "/home/${user_name}/.config/ar18/${module_name}/vars"
     fi
   fi
-  # Function end
+  
+  if [ -f "${script_dir}/${module_name}/${module_name}.service" ]; then
+    echo "${ar18_sudo_password}" | sudo -Sk chmod 644 "${install_dir}/${module_name}/${module_name}.service"
+    echo "${ar18_sudo_password}" | sudo -Sk rm -rf "/etc/systemd/system/${module_name}.service"
+    echo "${ar18_sudo_password}" | sudo -Sk ln -s "${install_dir}/${module_name}/${module_name}.service" "/etc/systemd/system/${module_name}.service"
+    echo "${ar18_sudo_password}" | sudo -Sk systemctl enable "${module_name}.service"
+    echo "${ar18_sudo_password}" | sudo -Sk systemctl start "${module_name}.service"
+  fi
+  
+  ###############################FUNCTION_END##################################
   set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
