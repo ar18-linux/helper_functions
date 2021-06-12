@@ -30,6 +30,7 @@ function function_prototype() {
 function has_sudo_capabilities() {
   # Function template 2021-06-12.01
   local shell_options
+shopt -op
   IFS=$'\n' shell_options=($(shopt -op))
   set -eu
   set -o pipefail
@@ -79,7 +80,7 @@ function obtain_sudo_password() {
   set -o pipefail
   local ret
   ret=0
-  set -x
+  set +x
   # Function start
   
   if [[ "$(whoami)" = "root" ]]; then
@@ -89,9 +90,7 @@ function obtain_sudo_password() {
   if [ -z "${ar18_sudo_password+x}" ]; then
     echo "Testing for sudo capabilities..."
     
-shopt -op
     has_sudo_capabilities
-shopt -op
     if [ "$?" = "1" ]; then
       echo "Sudo rights have been asserted"
     else
