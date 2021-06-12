@@ -79,7 +79,7 @@ function obtain_sudo_password() {
   set -o pipefail
   local ret
   ret=0
-  set +x
+  set -x
   # Function start
   
   if [[ "$(whoami)" = "root" ]]; then
