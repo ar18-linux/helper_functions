@@ -33,6 +33,7 @@ function has_sudo_capabilities() {
   shopt -op
   coproc CAT { shopt -op; }
 read myvar <&${CAT[0]}
+echo $myvar
 kill $CAT_PID
 
   IFS=$'\n' shell_options=(${myvar})
