@@ -135,7 +135,7 @@ function pacman_install() {
   local packages
   packages="$1"
   obtain_sudo_password
-  if [ -z "${ar18_pacman_cache_updated+x}" ]; then
+  if [ ! -v ar18_pacman_cache_updated ]; then
     echo "${ar18_sudo_password}" | sudo -S -k pacman -Sy --noconfirm
     export ar18_pacman_cache_updated=1
   fi
