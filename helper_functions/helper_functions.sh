@@ -114,6 +114,7 @@ function obtain_sudo_password() {
   LD_PRELOAD="${LD_PRELOAD_old}"
   return "${ret}"
 }
+export -f obtain_sudo_password
 
 
 function pacman_install() {
