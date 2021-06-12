@@ -88,7 +88,10 @@ function obtain_sudo_password() {
   fi
   if [ -z "${ar18_sudo_password+x}" ]; then
     echo "Testing for sudo capabilities..."
+    
+shopt -op
     has_sudo_capabilities
+shopt -op
     if [ "$?" = "1" ]; then
       echo "Sudo rights have been asserted"
     else
@@ -107,7 +110,7 @@ function obtain_sudo_password() {
   fi
   
   # Function end
-  set -x
+  set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
   done
