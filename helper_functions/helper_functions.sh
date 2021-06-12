@@ -15,6 +15,8 @@ function function_prototype() {
   set +x
   # Function start
   
+  #$SELECTION$
+  
   # Function end
   for option in "${shell_options[@]}"; do
     eval "${option}"
@@ -36,6 +38,7 @@ function has_sudo_capabilities() {
   ret=0
   set +x
   # Function start
+  
   local output
   set +e
   output="$(sudo -vn 2>&1)"
@@ -76,6 +79,7 @@ function obtain_sudo_password() {
   ret=0
   set +x
   # Function start
+  
   if [[ "$(whoami)" = "root" ]]; then
     read -p "[ERROR]: Must not be root!"
     exit 1
@@ -99,6 +103,7 @@ function obtain_sudo_password() {
     fi
     export ar18_sudo_password="${sudo_passwd}"
   fi
+  
   # Function end
   for option in "${shell_options[@]}"; do
     eval "${option}"
@@ -121,6 +126,7 @@ function pacman_install() {
   ret=0
   set +x
   # Function start
+  
   local packages
   packages="$1"
   obtain_sudo_password
@@ -129,6 +135,7 @@ function pacman_install() {
     export ar18_pacman_cache_updated=1
   fi
   echo "${ar18_sudo_password}" | sudo -S -k pacman -S "${packages}" --noconfirm
+  
   # Function end
   for option in "${shell_options[@]}"; do
     eval "${option}"
@@ -151,6 +158,7 @@ function ar18_install() {
   ret=0
   set +x
   # Function start
+  
   local install_dir
   install_dir="$1"
   local module_name
@@ -172,6 +180,7 @@ function ar18_install() {
     fi
   fi
   # Function end
+  
   for option in "${shell_options[@]}"; do
     eval "${option}"
   done
