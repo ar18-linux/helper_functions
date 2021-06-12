@@ -8,7 +8,12 @@ function obtain_sudo_password() {
   # Function start
   if [ -z "${ar18_sudo_password+x}" ]; then
     echo "Testing for sudo capabilities..."
-    timeout 2 sudo id || echo "User $(whoami) does not have sudo rights, aborting"; exit 1
+    if [ "$(timeout 2 sudo id)" ]; then
+      echo "Sudo rights have been asserted"
+    else
+       echo "User $(whoami) does not have sudo rights, aborting"; 
+       exit 1
+    fi
     local sudo_passwd
     read -s -p "Enter your password: " sudo_passwd
     export ar18_sudo_password="${sudo_passwd}"
