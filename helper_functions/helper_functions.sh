@@ -56,5 +56,5 @@ function ar18_install() {
     fi
   fi
   # Function end
-  "${errexit}"
+  eval "${errexit}"
 }
