@@ -31,6 +31,7 @@ function has_sudo_capabilities() {
   # Function template 2021-06-12.01
   local shell_options
   IFS=$'\n' shell_options=($(shopt -op))
+  echo ${shell_options[3]}
   set -eu
   set -o pipefail
   local LD_PRELOAD_old="${LD_PRELOAD}"
@@ -59,8 +60,7 @@ function has_sudo_capabilities() {
     fi
   fi
   # Function end
-  set -x
-shopt -op
+  set +x
   for option in "${shell_options[@]}"; do
     eval "${option}"
   done
