@@ -1,6 +1,27 @@
 #!/bin/bash
 
 
+function check_sudo_capabilities() {
+  local ret
+  ret=0
+  local errexit
+  errexit="$(shopt -op | grep errexit)"
+  set -e
+  # Function template 2021-06-12.03
+  # Function start
+  local output
+  output="$(sudo -vn)"
+  if [[ "${output}" =~ "sudo: a password is required" ]]; then
+    ret=0
+  elif [[ "${output}" =~ "Sorry, user" ]]; then
+    ret=1
+  fi
+  # Function end
+  eval "${errexit}"
+  return "${ret}"
+}
+
+
 function obtain_sudo_password() {
   local errexit
   errexit="$(shopt -op | grep errexit)"
@@ -8,7 +29,7 @@ function obtain_sudo_password() {
   # Function start
   if [ -z "${ar18_sudo_password+x}" ]; then
     echo "Testing for sudo capabilities..."
-    if [ "$(timeout 2 sudo id)" ]; then
+    if [ "$(check_sudo_capabilities)" ]; then
       echo "Sudo rights have been asserted"
     else
        echo "User $(whoami) does not have sudo rights, aborting"; 
