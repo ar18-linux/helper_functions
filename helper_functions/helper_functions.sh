@@ -13,6 +13,7 @@ function has_sudo_capabilities() {
   set +e
   output="$(sudo -vn 2>&1)"
   set -e
+  echo $?
   if [[ "${output}" =~ "sudo: a password is required" ]]; then
     ret=1
   elif [[ "${output}" =~ "Sorry, user" ]]; then
