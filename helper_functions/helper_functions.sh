@@ -32,7 +32,7 @@ function has_sudo_capabilities() {
   local shell_options
   shopt -op
   coproc CAT { shopt -op; }
-read myvar <&${CAT[0]}
+  myvar="${CAT[0]}"
 echo "hh:$myvar"
 kill $CAT_PID
 
