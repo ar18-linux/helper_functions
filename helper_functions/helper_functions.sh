@@ -46,12 +46,12 @@ function has_sudo_capabilities() {
   ret=$?
   set -e
   if [ "${ret}" = "0" ];then
-    ret=1
+    ret=0
   else
     if [[ "${output}" =~ "sudo: a password is required" ]]; then
-      ret=1
-    elif [[ "${output}" =~ "Sorry, user" ]]; then
       ret=0
+    elif [[ "${output}" =~ "Sorry, user" ]]; then
+      ret=1
     else
       echo "[ERROR]: Could not determine sudo access from:"
       echo "${output}"
@@ -82,14 +82,13 @@ function obtain_sudo_password() {
   set -x
   # Function start
   
-  if [[ "$(whoami)" = "root" ]]; then
+  if [ "$(whoami)" = "root" ]; then
     read -p "[ERROR]: Must not be root!"
     exit 1
   fi
   if [ -z "${ar18_sudo_password+x}" ]; then
     echo "Testing for sudo capabilities..."
     
-    echo $(has_sudo_capabilities)
     if [ $(has_sudo_capabilities) ]; then
       echo "Sudo rights have been asserted"
     else
