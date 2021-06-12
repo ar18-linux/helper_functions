@@ -94,7 +94,7 @@ function obtain_sudo_password() {
     echo ""
     echo "Testing the password with 'sudo -Sk id'"
     if [ ! "$(echo "${sudo_passwd}" | sudo -Sk id)" ]; then
-      read -p "[ERROR]: Password seems to be wrong"; 
+      read -p "[ERROR]: Password is wrong, or maybe your account is locked due to too many wrong password attempts. In this case, reset the counter with '#faillock --reset'"; 
       exit 1
     fi
     export ar18_sudo_password="${sudo_passwd}"
