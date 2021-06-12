@@ -89,8 +89,8 @@ function obtain_sudo_password() {
   if [ -z "${ar18_sudo_password+x}" ]; then
     echo "Testing for sudo capabilities..."
     
-    has_sudo_capabilities
-    if [ "$?" = "1" ]; then
+    #has_sudo_capabilities
+    if [ $(has_sudo_capabilities) ]; then
       echo "Sudo rights have been asserted"
     else
        read -p "[ERROR]: User $(whoami) does not have sudo rights, aborting"; 
