@@ -31,7 +31,12 @@ function has_sudo_capabilities() {
   # Function template 2021-06-12.01
   local shell_options
   shopt -op
-  IFS=$'\n' shell_options=($(shopt -op))
+  coproc CAT { shopt -op; }
+read myvar <&${CAT[0]}
+kill $CAT_PID
+
+  IFS=$'\n' shell_options=(${myvar})
+  
   echo ${shell_options[3]}
   set -eu
   set -o pipefail
