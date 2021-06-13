@@ -110,7 +110,7 @@ function pacman_install() {
   set -x
   
   local packages
-  packages="$1"
+  packages="$@"
   obtain_sudo_password
   if [ ! -v ar18_pacman_cache_updated ]; then
     echo "${ar18_sudo_password}" | sudo -S -k pacman -Sy --noconfirm
