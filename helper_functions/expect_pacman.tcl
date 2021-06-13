@@ -8,8 +8,6 @@ spawn pacman -S "$packages" --noconfirm --needed
 expect {
   "Enter a selection" {
     send -- "\r"
-  }
-  eof {
-    exit
+    exp_continue
   }
 }
