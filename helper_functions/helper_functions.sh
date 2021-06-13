@@ -118,7 +118,8 @@ function pacman_install() {
   #echo "${ar18_sudo_password}" | sudo -S -k pacman -S "${packages}" --noconfirm --needed
   echo "${ar18_sudo_password}" | sudo -S -k pacman -S expect --noconfirm --needed
   local _script_dir
-  _script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+  echo "hh:$0"
+  _script_dir="$( cd "$( dirname "${0}" )" &> /dev/null && pwd )"
   echo "${ar18_sudo_password}" | sudo -S -k chmod +x "${_script_dir}/expect_pacman.tcl"
   echo "${ar18_sudo_password}" | sudo -S -k "${_script_dir}/expect_pacman.tcl" "${packages}"
   
