@@ -1,6 +1,5 @@
 #!/bin/bash
-echo "from file2: ${BASH_SOURCE[0]}"
-exit 5
+ar18_helper_functions_script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 function has_sudo_capabilities() {
   # Function template 2021-06-12.01
@@ -118,14 +117,8 @@ function pacman_install() {
   
   #echo "${ar18_sudo_password}" | sudo -S -k pacman -S "${packages}" --noconfirm --needed
   echo "${ar18_sudo_password}" | sudo -S -k pacman -S expect --noconfirm --needed
-  local _script_dir
-  echo "hh:$0"
-
-echo "from file2: ${BASH_SOURCE[0]}"
-
-  _script_dir="$( cd "$( dirname "${0}" )" &> /dev/null && pwd )"
-  echo "${ar18_sudo_password}" | sudo -S -k chmod +x "${_script_dir}/expect_pacman.tcl"
-  echo "${ar18_sudo_password}" | sudo -S -k "${_script_dir}/expect_pacman.tcl" "${packages}"
+  echo "${ar18_sudo_password}" | sudo -S -k chmod +x "${ar18_helper_functions_script_dir}/expect_pacman.tcl"
+  echo "${ar18_sudo_password}" | sudo -S -k "${ar18_helper_functions_script_dir}/expect_pacman.tcl" "${packages}"
   
   ###############################FUNCTION_END##################################
   set +x
