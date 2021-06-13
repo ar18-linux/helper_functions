@@ -114,7 +114,7 @@ function pacman_install() {
     echo "${ar18_sudo_password}" | sudo -S -k pacman -Sy --noconfirm
     export ar18_pacman_cache_updated=1
   fi
-  echo "${ar18_sudo_password}" | sudo -S -k pacman -S "${packages}" --noconfirm
+  echo "${ar18_sudo_password}" | sudo -S -k pacman -S "${packages}" --noconfirm --needed
   
   ###############################FUNCTION_END##################################
   set +x
