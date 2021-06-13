@@ -1,5 +1,6 @@
 #!/bin/bash
-
+echo "from file2: ${BASH_SOURCE[0]}"
+exit 5
 
 function has_sudo_capabilities() {
   # Function template 2021-06-12.01
