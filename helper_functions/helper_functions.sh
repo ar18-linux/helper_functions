@@ -156,6 +156,61 @@ function pip_install() {
 export -f pip_install
 
 
+function aur_install() {
+  # Function template 2021-06-12.01
+  local LD_PRELOAD_old
+  LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
+  local shell_options
+  IFS=$'\n' shell_options=($(shopt -op))
+  set -eu
+  set -o pipefail
+  local ret
+  ret=0
+  set +x
+  ##############################FUNCTION_START#################################
+  
+  obtain_sudo_password
+  for packake in "$@"; do
+    name="${package}"
+    rm -rf /tmp/build 
+    mkdir /tmp/build
+    cd /tmp/build
+    git clone https://aur.archlinux.org/${name}.git
+    cd /tmp/build/${name}
+    set +e
+    LD_PRELOAD= makepkg -m --noconfirm
+    if [ "$?" != "0" ]; then
+      out="$(LD_PRELOAD= makepkg -m --noconfirm)"
+      echo "${out}" | grep "Missing dependencies"
+      if [ "$?" = "0" ]; then
+        out="$(echo "${out}" | grep '\->')"
+        declare -a arr
+        arr=($(echo ${out}))
+        for item in "${arr[@]}"; do
+          if [ "${item}" != "->" ] && [ "${item}" != "" ]; then
+            clean="$(echo "${item}" | sed -e 's/>=.*//g')"
+            pacman_install "${clean}"
+          fi
+        done
+      fi
+      LD_PRELOAD= makepkg --noconfirm
+    fi
+    set -e
+    echo "${ar18_sudo_password}" | sudo -S -k pacman -U --noconfirm --asdep ./*zst
+  done
+  
+  ###############################FUNCTION_END##################################
+  set +x
+  for option in "${shell_options[@]}"; do
+    eval "${option}"
+  done
+  LD_PRELOAD="${LD_PRELOAD_old}"
+  return "${ret}"
+}
+export -f aur_install
+
+
 function ar18_install() {
   # Function template 2021-06-12.01
   local LD_PRELOAD_old
