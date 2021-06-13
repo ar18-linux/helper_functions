@@ -231,10 +231,11 @@ function aur_install() {
       if [ "$?" = "0" ]; then
         out="$(echo "${out}" | grep '\->')"
         declare -a arr
-        arr=($(echo ${out}))
+        arr=(echo ${out})
         for item in "${arr[@]}"; do
           if [ "${item}" != "->" ] && [ "${item}" != "" ]; then
             clean="$(echo "${item}" | sed -e 's/>=.*//g')"
+            clean="$(echo "${clean}" | sed -e 's/->//g' | xargs)"
             pacman_install "${clean}"
           fi
         done
