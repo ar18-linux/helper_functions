@@ -255,8 +255,7 @@ function ar18_install() {
     echo "${ar18_sudo_password}" | sudo -Sk chown "${user_name}:${user_name}" "/home/${user_name}/.config/ar18/${module_name}"
     for filename in "${script_dir}/${module_name}/config/"*; do
       base_name="$(basename "${filename}")"
-      echo "${base_name}"
-      if [ ! -f "/home/${user_name}/.config/${module_name}/${base_name}" ]; then
+      if [ ! -f "/home/${user_name}/.config/ar18/${module_name}/${base_name}" ]; then
       cp "${filename}" "/home/${user_name}/.config/ar18/${module_name}/${base_name}"
       echo "${ar18_sudo_password}" | sudo -Sk chown "${user_name}:${user_name}" "/home/${user_name}/.config/ar18/${module_name}/${base_name}"
     fi
