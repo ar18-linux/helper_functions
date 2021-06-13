@@ -107,6 +107,8 @@ function pacman_install() {
   set +x
   ##############################FUNCTION_START#################################
   
+  set -x
+  
   local packages
   packages="$1"
   obtain_sudo_password
