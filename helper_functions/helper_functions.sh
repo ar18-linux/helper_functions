@@ -164,6 +164,7 @@ function import_vars() {
   LD_PRELOAD="${LD_PRELOAD_old}"
   return "${ret}"
 }
+export -f import_vars
 
 
 function pip_install() {
