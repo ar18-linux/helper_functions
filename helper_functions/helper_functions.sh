@@ -208,7 +208,7 @@ function ar18_install() {
     fi
     auto_start="/home/${user_name}/.config/ar18/autostarts/${module_name}.sh"
     cp "${script_dir}/${module_name}/autostart.sh" "${auto_start}"
-    sed -i "s/{{INSTALL_DIR}}/${install_dir}/g" "${auto_start}"
+    sed -i "s~{{INSTALL_DIR}}~${install_dir}~g" "${auto_start}"
     echo "${ar18_sudo_password}" | sudo -Sk chmod +x "${auto_start}"
   fi
   
