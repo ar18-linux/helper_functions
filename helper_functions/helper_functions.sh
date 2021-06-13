@@ -155,7 +155,7 @@ function import_vars() {
     local module_name
     module_name="$(basename "$(echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )")")"
     if [ ! -f "/home/$(logname)/.config/ar18/${module_name}/vars" ]; then
-      . "${script_dir}/config/vars"
+      [ -f "${script_dir}/config/vars" ] && . "${script_dir}/config/vars"
     else 
       [ -f "/home/$(logname)/.config/ar18/${module_name}/vars" ] && . "/home/$(logname)/.config/ar18/${module_name}/vars"
     fi  
