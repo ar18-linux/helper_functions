@@ -127,6 +127,45 @@ function pacman_install() {
 export -f pacman_install
 
 
+function import_vars() {
+  # Function template 2021-06-12.01
+  local LD_PRELOAD_old
+  LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
+  local shell_options
+  IFS=$'\n' shell_options=($(shopt -op))
+  set -eu
+  set -o pipefail
+  local ret
+  ret=0
+  set +x
+  ##############################FUNCTION_START#################################
+  
+  set +u
+  is_init="${1}"
+  set -u
+  if [ "${is_init}" = "1" ]; then
+    [ -f "${script_dir}/config/vars" ] && . "${script_dir}/config/vars"
+  else
+    local module_name
+    module_name="$(basename "$(echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )")")"
+    if [ ! -f "/home/$(logname)/.config/ar18/${module_name}/vars" ]; then
+      . "${script_dir}/config/vars"
+    else 
+      [ -f "/home/$(logname)/.config/ar18/${module_name}/vars" ] && . "/home/$(logname)/.config/ar18/${module_name}/vars"
+    fi  
+  fi
+  
+  ###############################FUNCTION_END##################################
+  set +x
+  for option in "${shell_options[@]}"; do
+    eval "${option}"
+  done
+  LD_PRELOAD="${LD_PRELOAD_old}"
+  return "${ret}"
+}
+
+
 function pip_install() {
   # Function template 2021-06-12.01
   local LD_PRELOAD_old
