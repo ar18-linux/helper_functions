@@ -243,7 +243,7 @@ function ar18_install() {
   if [ -f "${script_dir}/${module_name}/vars" ]; then
     mkdir -p "/home/${user_name}/.config/ar18/${module_name}"
     echo "${ar18_sudo_password}" | sudo -Sk chown "${user_name}:${user_name}" "/home/${user_name}/.config/ar18/${module_name}"
-    if [ ! -f "/home/${user_name}/.config/${module_name}/vars" ]; then
+    if [ ! -f "/home/${user_name}/.config/ar18/${module_name}/vars" ]; then
       cp ${script_dir}/${module_name}/vars /home/${user_name}/.config/ar18/${module_name}/vars
       echo "${ar18_sudo_password}" | sudo -Sk chown "${user_name}:${user_name}" "/home/${user_name}/.config/ar18/${module_name}/vars"
     fi
