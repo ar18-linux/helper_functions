@@ -201,6 +201,16 @@ function ar18_install() {
     echo "${ar18_sudo_password}" | sudo -Sk systemctl start "${module_name}.service"
   fi
   
+  if [ -f "${install_dir}/${module_name}/autostart.sh" ]; then
+    if [ ! -d "/home/${user_name}/.config/ar18/autostarts" ]; then
+      mkdir -p "/home/${user_name}/.config/ar18/autostarts"
+    fi
+    auto_start="/home/${user_name}/.config/ar18/autostarts/${module_name}.sh"
+    cp "${script_dir}/${module_name}/autostart.sh" "${auto_start}"
+    sed -i "s/{{INSTALL_DIR}}/${install_dir}/g" "${auto_start}"
+    echo "${ar18_sudo_password}" | sudo -Sk chmod +x "${auto_start}"
+  fi
+  
   ###############################FUNCTION_END##################################
   set +x
   for option in "${shell_options[@]}"; do
