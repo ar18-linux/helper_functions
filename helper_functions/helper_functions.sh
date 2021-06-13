@@ -109,18 +109,17 @@ function pacman_install() {
   
   set -x
   
-  local packages
-  packages="$@"
   obtain_sudo_password
   if [ ! -v ar18_pacman_cache_updated ]; then
     echo "${ar18_sudo_password}" | sudo -S -k pacman -Sy --noconfirm
     export ar18_pacman_cache_updated=1
   fi
-  
-  #echo "${ar18_sudo_password}" | sudo -S -k pacman -S "${packages}" --noconfirm --needed
   echo "${ar18_sudo_password}" | sudo -S -k pacman -S expect --noconfirm --needed
   echo "${ar18_sudo_password}" | sudo -S -k chmod +x "${ar18_helper_functions_script_dir}/expect_pacman.tcl"
-  echo "${ar18_sudo_password}" | sudo -S -k "${ar18_helper_functions_script_dir}/expect_pacman.tcl" "${packages}"
+  for arg in "$@"; do
+    #echo "${ar18_sudo_password}" | sudo -S -k pacman -S "${packages}" --noconfirm --needed
+    echo "${ar18_sudo_password}" | sudo -S -k "${ar18_helper_functions_script_dir}/expect_pacman.tcl" "${arg}"
+  done
   
   ###############################FUNCTION_END##################################
   set +x
