@@ -249,6 +249,19 @@ function ar18_install() {
     fi
   fi
   
+  if [ -d "${script_dir}/${module_name}/config" ]; then
+    local base_name
+    mkdir -p "/home/${user_name}/.config/ar18/${module_name}"
+    echo "${ar18_sudo_password}" | sudo -Sk chown "${user_name}:${user_name}" "/home/${user_name}/.config/ar18/${module_name}"
+    for filename in "${script_dir}/${module_name}/config"*; do
+      base_name="$(basename "${filename}")"
+      if [ ! -f "/home/${user_name}/.config/${module_name}/${base_name}" ]; then
+      cp "${filename}" "/home/${user_name}/.config/ar18/${module_name}/${base_name}"
+      echo "${ar18_sudo_password}" | sudo -Sk chown "${user_name}:${user_name}" "/home/${user_name}/.config/ar18/${module_name}/${base_name}"
+    fi
+    done
+  fi
+  
   if [ -f "${script_dir}/${module_name}/${module_name}.service" ]; then
     echo "${ar18_sudo_password}" | sudo -Sk chmod 644 "${install_dir}/${module_name}/${module_name}.service"
     echo "${ar18_sudo_password}" | sudo -Sk rm -rf "/etc/systemd/system/${module_name}.service"
