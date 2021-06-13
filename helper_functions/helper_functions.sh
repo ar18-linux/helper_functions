@@ -1,5 +1,5 @@
 #!/bin/bash
-ar18_helper_functions_script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+export ar18_helper_functions_script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 function has_sudo_capabilities() {
   # Function template 2021-06-12.01
