@@ -171,7 +171,7 @@ function aur_install() {
   ##############################FUNCTION_START#################################
   
   obtain_sudo_password
-  for packake in "$@"; do
+  for package in "$@"; do
     name="${package}"
     rm -rf /tmp/build 
     mkdir /tmp/build
