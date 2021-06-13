@@ -207,9 +207,10 @@ function ar18_install() {
       mkdir -p "/home/${user_name}/.config/ar18/autostarts"
     fi
     auto_start="/home/${user_name}/.config/ar18/autostarts/${module_name}.sh"
-    cp "${script_dir}/${module_name}/autostart.sh" "${auto_start}"
-    sed -i "s~{{INSTALL_DIR}}~${install_dir}~g" "${auto_start}"
-    echo "${ar18_sudo_password}" | sudo -Sk chmod +x "${auto_start}"
+    echo "${ar18_sudo_password}" | sudo -Sk cp "${script_dir}/${module_name}/autostart.sh" "${auto_start}"
+    echo "${ar18_sudo_password}" | sudo -Sk chmod 4750 "${auto_start}"
+    echo "${ar18_sudo_password}" | sudo -Sk chown "root:${user_name}" "${auto_start}"
+    echo "${ar18_sudo_password}" | sudo -Sk sed -i "s~{{INSTALL_DIR}}~${install_dir}~g" "${auto_start}"
   fi
   
   ###############################FUNCTION_END##################################
