@@ -201,6 +201,68 @@ function pip_install() {
 export -f pip_install
 
 
+function source_or_execute_config() {
+  # Function template 2021-06-12.01
+  local LD_PRELOAD_old
+  LD_PRELOAD_old="${LD_PRELOAD}"
+  LD_PRELOAD=
+  local shell_options
+  IFS=$'\n' shell_options=($(shopt -op))
+  set -eu
+  set -o pipefail
+  local ret
+  ret=0
+  set +x
+  ##############################FUNCTION_START#################################
+  
+  local action
+  action="${1}"
+  local module_name
+  module_name="${2}"
+  local ar18_deployment_target
+  set +u
+  ar18_deployment_target="${3}"
+  set -u
+  if [ "${ar18_deployment_target}" = "" ]; then
+    if [ ! -f "/home/$(logname)/.config/ar18/deploy/installed_target" ]; then
+      read -p "[ERROR]: Cannot find file to determine installed_target"
+      exit 1
+    else
+      ar18_deployment_target="$(cat "/home/$(logname)/.config/ar18/deploy/installed_target")"
+      if [ ! -f "/home/$(logname)/.config/ar18/${module_name}/${ar18_deployment_target}" ]; then
+        read -p "[ERROR]: Cannot find configuration file for [${ar18_deployment_target}]"
+        exit 1
+      else
+        if [ "${action}" = "source" ]; then
+          . "/home/$(logname)/.config/ar18/${module_name}/${ar18_deployment_target}"
+        elif [ "${action}" = "execute" ]; then
+          "/home/$(logname)/.config/ar18/${module_name}/${ar18_deployment_target}"
+        fi
+      fi
+    fi
+  else
+    if [ ! -f "${script_dir}/config/${ar18_deployment_target}" ]; then
+      read -p "[ERROR]: Cannot find configuration file for [${ar18_deployment_target}]"
+      exit 1
+    else
+      if [ "${action}" = "source" ]; then
+        . "${script_dir}/config/${ar18_deployment_target}"
+      elif [ "${action}" = "execute" ]; then
+        "${script_dir}/config/${ar18_deployment_target}"
+      fi
+    fi
+  fi
+  
+  ###############################FUNCTION_END##################################
+  set +x
+  for option in "${shell_options[@]}"; do
+    eval "${option}"
+  done
+  LD_PRELOAD="${LD_PRELOAD_old}"
+  return "${ret}"
+}
+
+
 function aur_install() {
   # Function template 2021-06-12.01
   local LD_PRELOAD_old
