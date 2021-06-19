@@ -243,6 +243,7 @@ function read_target() {
   LD_PRELOAD="${LD_PRELOAD_old}"
   return "${ret}"
 }
+export -f read_target
 
 
 function source_or_execute_config() {
