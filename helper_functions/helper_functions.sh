@@ -236,6 +236,8 @@ function source_or_execute_config() {
         if [ "${action}" = "source" ]; then
           . "/home/$(logname)/.config/ar18/${module_name}/${ar18_deployment_target}"
         elif [ "${action}" = "execute" ]; then
+          obtain_sudo_password
+          echo "${ar18_sudo_password}" | sudo -Sk chmod +x "/home/$(logname)/.config/ar18/${module_name}/${ar18_deployment_target}"
           "/home/$(logname)/.config/ar18/${module_name}/${ar18_deployment_target}"
         fi
       fi
@@ -248,6 +250,8 @@ function source_or_execute_config() {
       if [ "${action}" = "source" ]; then
         . "${script_dir}/config/${ar18_deployment_target}"
       elif [ "${action}" = "execute" ]; then
+        obtain_sudo_password
+        echo "${ar18_sudo_password}" | sudo -Sk chmod +x "${script_dir}/config/${ar18_deployment_target}"
         "${script_dir}/config/${ar18_deployment_target}"
       fi
     fi
