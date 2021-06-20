@@ -245,7 +245,7 @@ function read_target() {
 }
 export -f read_target
 
-
+         
 function source_or_execute_config() {
   # Function template 2021-06-12.01
   local LD_PRELOAD_old
