@@ -398,6 +398,10 @@ function ar18_install() {
   echo "${ar18_sudo_password}" | sudo -Sk cp -rf "${script_dir}/${module_name}" "${install_dir}/${module_name}"
   echo "${ar18_sudo_password}" | sudo -Sk chmod +x "${install_dir}/${module_name}/"* -R
   
+  if [ ! -v user_name ]; then
+    user_name="${logname}"
+  fi
+  
   if [ -f "${script_dir}/${module_name}/vars" ]; then
     read -p "fix ${module_name}"
     exit 66
