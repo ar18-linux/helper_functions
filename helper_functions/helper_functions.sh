@@ -111,7 +111,7 @@ function pacman_install() {
   
   obtain_sudo_password
   if [ ! -v ar18_pacman_cache_updated ]; then
-    echo "${ar18_sudo_password}" | sudo -S -k pacman -Sy --noconfirm
+    echo "${ar18_sudo_password}" | sudo -S -k pacman -Syu --noconfirm
     export ar18_pacman_cache_updated=1
   fi
   echo "${ar18_sudo_password}" | sudo -S -k pacman -S expect --noconfirm --needed
