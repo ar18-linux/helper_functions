@@ -328,6 +328,7 @@ function aur_install() {
   ##############################FUNCTION_START#################################
   
   obtain_sudo_password
+  pacman_install fakeroot
   for package in "$@"; do
     name="${package}"
     rm -rf /tmp/build 
