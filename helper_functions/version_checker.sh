@@ -29,6 +29,12 @@ if [ -f "${ar18_version_checker_dir_name}/VERSION" ]; then
       cd "${old_cwd}"
       "${ar18_version_checker_caller}"
     fi
+    # Return or exit depending on whether the script was sourced or not
+    if [ "${ar18_sourced_map["${ar18_version_checker_caller}"]}" = "1" ]; then
+      return "${ar18_exit_map["${ar18_version_checker_caller}"]}"
+    else
+      exit "${ar18_exit_map["${ar18_version_checker_caller}"]}"
+    fi
   fi
   
 fi
