@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "checking version..."
+echo "checking version...2"
 ar18_version_cheker_caller="$(caller | cut -d ' ' -f2-)"
 ar18_version_cheker_dir_name="$(dirname "${ar18_version_cheker_caller}")"
 ar18_version_cheker_module_name="$(basename "${ar18_version_cheker_dir_name}")"
