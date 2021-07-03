@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "checking version...4"
+echo "checking version..."
 ar18_version_cheker_caller="$(caller | cut -d ' ' -f2-)"
 ar18_version_cheker_dir_name="$(dirname "${ar18_version_cheker_caller}")"
 ar18_version_cheker_module_name="$(basename "${ar18_version_cheker_dir_name}")"
@@ -9,6 +9,8 @@ if [ -f "${dirname}/VERSION" ]; then
   rm -f /tmp/VERSION
   wget "https://raw.githubusercontent.com/ar18-linux/${ar18_version_cheker_module_name}/master/${ar18_version_cheker_module_name}/VERSION" -P /tmp
   ar18_version_cheker_module_version_remote="$(cat "/tmp/VERSION")"
+  echo "local version is ${ar18_version_cheker_module_version_local}"
+  echo "remote version is ${ar18_version_cheker_module_version_remote}"
   if [[ "${ar18_version_cheker_module_version_remote}" > "${ar18_version_cheker_module_version_local}" ]]; then
     echo "new version available"
   fi
