@@ -8,7 +8,7 @@ if [ -f "${dirname}/VERSION" ]; then
   rm -f /tmp/VERSION
   wget "https://raw.githubusercontent.com/ar18-linux/${ar18_version_cheker_module_name}/master/${ar18_version_cheker_module_name}/VERSION" -P /tmp
   ar18_version_cheker_module_version_remote="$(cat "/tmp/VERSION")"
-  if [ "${ar18_version_cheker_module_version_remote}" > "${ar18_version_cheker_module_version_local}" ]; then
+  if [[ "${ar18_version_cheker_module_version_remote}" > "${ar18_version_cheker_module_version_local}" ]]; then
     echo "new version available"
   fi
   #if [ -f "/home/$(whoami)/.config/${ar18_version_cheker_module_name}/INSTALL_DIR" ]; then
