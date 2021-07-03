@@ -25,7 +25,7 @@ if [ -f "${ar18_version_checker_dir_name}/VERSION" ]; then
       cd "/tmp/${ar18_version_checker_module_name}"
       git clone "http://github.com/ar18-linux/${ar18_version_checker_module_name}"
       cp -raf "/tmp/${ar18_version_checker_module_name}/${ar18_version_checker_module_name}/${ar18_version_checker_module_name}/." "${ar18_version_checker_dir_name}/"
-      ar18_version_checker_caller
+      "${ar18_version_checker_caller}"
     fi
   fi
   
