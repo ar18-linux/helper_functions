@@ -27,7 +27,7 @@ if [ -f "${ar18_version_checker_dir_name}/VERSION" ]; then
       git clone "http://github.com/ar18-linux/${ar18_version_checker_module_name}"
       cp -raf "/tmp/${ar18_version_checker_module_name}/${ar18_version_checker_module_name}/${ar18_version_checker_module_name}/." "${ar18_version_checker_dir_name}/"
       cd "${old_cwd}"
-      "${ar18_version_checker_caller}"
+      . "${ar18_version_checker_caller}"
     fi
     # Return or exit depending on whether the script was sourced or not
     if [ "${ar18_sourced_map["${ar18_version_checker_caller}"]}" = "1" ]; then
