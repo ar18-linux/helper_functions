@@ -12,7 +12,6 @@ function has_sudo_capabilities() {
   LD_PRELOAD=
   local ret
   ret=0
-  set -x
   ##############################FUNCTION_START#################################
   
   local output
@@ -106,8 +105,6 @@ function pacman_install() {
   ret=0
   set +x
   ##############################FUNCTION_START#################################
-  
-  set -x
   
   obtain_sudo_password
   if [ ! -v ar18_pacman_cache_updated ]; then
@@ -384,7 +381,6 @@ function ar18_install() {
   set +x
   ##############################FUNCTION_START#################################
   
-  set -x
   local install_dir
   install_dir="$1"
   local module_name

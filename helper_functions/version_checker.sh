@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 echo "checking version...4"
 ar18_version_checker_caller="$(caller | cut -d ' ' -f2-)"
